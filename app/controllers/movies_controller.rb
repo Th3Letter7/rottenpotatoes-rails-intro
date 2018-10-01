@@ -17,13 +17,20 @@ class MoviesController < ApplicationController
     
     case @sort
     when "title"
+      @selected_ratings = {}
       @movies = Movie.all.order(:title)
       @title = 'hilite'
     when "releasedate" 
-        @movies = Movie.all.order(:release_date)
-        @releasedate = 'hilite'
+      @selected_ratings = {}
+      @movies = Movie.all.order(:release_date)
+      @releasedate = 'hilite'
     else
-      @movies = Movie.where(:rating => @selected_ratings.keys)
+      if(@selected_ratings != nil)
+        @movies = Movie.where(:rating => @selected_ratings.keys)
+      else
+        @selected_ratings = {}
+        @movies = Movie.all
+      end
     end
   end
 
